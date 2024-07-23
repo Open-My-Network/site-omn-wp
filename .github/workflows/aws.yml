@@ -20,15 +20,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.EC2_SECRET_KEY }}
         aws-region: us-east-1
 
-    - name: Get EC2 Instance ID
-      id: get_instance_id
-      run: |
-        INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=your-instance-tag" --query "Reservations[*].Instances[*].InstanceId" --output text)
-        echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
-
     - name: Run deployment commands on EC2 using SSM
       run: |
         aws ssm send-command \
           --document-name "AWS-RunShellScript" \
-          --targets "Key=instanceids,Values=$INSTANCE_ID" \
+          --targets "Key=instanceids,Values=i-0316f10be4720a76c" \
           --parameters "commands=cd /var/www/site.openmynetwork.com && git pull origin main && cd /var/www/leepnetwork.com && git pull origin main && sudo systemctl restart apache2"
