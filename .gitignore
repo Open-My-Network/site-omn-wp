@@ -1,6 +1,7 @@
 # Ignore WordPress core files (if you're using Composer to manage WordPress)
 wp/*
 !wp/wp-content/
+.env
 
 # Ignore wp-content except for themes and plugins
 wp-content/*

@@ -38,6 +38,10 @@ Here I am using ec2 instance to host my code. Launch a instance, you can choose 
   sudo usermod -aG docker ubuntu
 ```
 
+```bash
+  newgrp docker
+```
+
 ## Setup Nginx
 
 ```bash
