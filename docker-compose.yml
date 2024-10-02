@@ -4,24 +4,24 @@ services:
   wordpress:
     image: wordpress:latest
     ports:
-      - "3000:80"
+      - "3000:80" 
     environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_HOST: db 
+      WORDPRESS_DB_USER: omn_user
+      WORDPRESS_DB_PASSWORD: 2Lc5/aEa*X,2
+      WORDPRESS_DB_NAME: omn_production_db
     depends_on:
-      - db
+      - db 
 
   db:
-    image: mysql:5.7
+    image: mysql:5.7 
     environment:
-      MYSQL_DATABASE: ${WORDPRESS_DB_NAME}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: omn_production_db
+      MYSQL_USER: omn_user
+      MYSQL_PASSWORD: 2Lc5/aEa*X,2
+      MYSQL_ROOT_PASSWORD: 2Lc5/aEa*X,2  
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql  
 
 volumes:
   db_data:
