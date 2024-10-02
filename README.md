@@ -1,5 +1,38 @@
 # Open My Network
 
+## Using Locally
+
+```bash
+  cd /project_dir/site-omn-wp
+```
+
+Build you image
+```bash
+  docker build -t openmynetwork/wordpress-app:latest .
+```
+
+Once image is built, run locally
+```bash
+docker run -d --name wordpress -p 8080:80 openmynetwork/wordpress-app:latest
+```
+
+Stop and Remove
+```bash
+docker stop wordpress
+docker rm wordpress
+```
+
+Pushing Docker Image
+Follow this step only if not login
+```bash
+docker login -u your_username
+```
+
+If loggedin then,
+```bash
+docker push openmynetwork/wordpress-app:latest
+```
+
 ## AWS Ec2
 Here I am using ec2 instance to host my code. Launch a instance, you can choose t2.medium and 30gb volume
 
