@@ -38,26 +38,6 @@ Here I am using ec2 instance to host my code. Launch a instance, you can choose 
   sudo usermod -aG docker ubuntu
 ```
 
-```bash
-  newgrp docker
-```
-
-Build Docker Image and Push to repo
-```bash
-  docker build -t openmynetwork/wordpress-app:latest .
-```
-
-```bash
-  docker pull openmynetwork/wordpress-app:latest
-```
-
-```bash
-  docker push openmynetwork/wordpress-app:latest
-```
-
-```bash
-  docker tag openmynetwork/wordpress-app:latest openmynetwork/wordpress:latest
-```
 ## Setup Nginx
 
 ```bash
@@ -67,6 +47,48 @@ Build Docker Image and Push to repo
 ```bash
   sudo systemctl start nginx
   sudo systemctl enable nginx
+```
+
+### Configuration for Nginx
+
+```bash
+  sudo vi /etc/nginx/sites-available/openmynetwork.com
+```
+
+```bash
+server {
+    listen 80;
+    server_name openmynetwork.com www.openmynetwork.com;
+
+    location / {
+        proxy_pass http://localhost:3000; # Adjust to your application's port
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+    }
+}
+```
+
+```bash
+  sudo ln -s /etc/nginx/sites-available/openmynetwork.com /etc/nginx/sites-enabled/
+```
+
+```bash
+  sudo ufw enable
+```
+
+```bash
+  sudo ufw allow 'Nginx Full'
+```
+
+```bash
+  sudo ufw allow 3000
 ```
 
 ## Generate SSL
