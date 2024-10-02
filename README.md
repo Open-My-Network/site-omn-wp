@@ -42,6 +42,22 @@ Here I am using ec2 instance to host my code. Launch a instance, you can choose 
   newgrp docker
 ```
 
+Build Docker Image and Push to repo
+```bash
+  docker build -t openmynetwork/wordpress-app:latest .
+```
+
+```bash
+  docker pull openmynetwork/wordpress-app:latest
+```
+
+```bash
+  docker push openmynetwork/wordpress-app:latest
+```
+
+```bash
+  docker tag openmynetwork/wordpress-app:latest openmynetwork/wordpress:latest
+```
 ## Setup Nginx
 
 ```bash
