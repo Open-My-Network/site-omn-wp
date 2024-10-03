@@ -18,7 +18,8 @@ Once image is built, run locally
 
 After completed work push your image and Repo
 ```bash
-  docker-compose build
+  docker build -t openmynetwork/wordpress-app:latest .
+  docker push openmynetwork/wordpress-app:latest
 ```
 
 ```bash
