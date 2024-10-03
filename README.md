@@ -92,6 +92,7 @@ Here I am using ec2 instance to host my code. Launch a instance, you can choose 
 
 ```bash
   sudo usermod -aG docker ubuntu
+  sudo usermod -aG docker "$USER"
 ```
 
 ## Setup Nginx
