@@ -8,12 +8,34 @@
 
 Build you image
 ```bash
-  docker build -t openmynetwork/wordpress-app:latest .
+  docker-compose up -d
 ```
 
 Once image is built, run locally
 ```bash
-docker run -d --name wordpress -p 8080:80 openmynetwork/wordpress-app:latest
+  http://localhost:3000
+```
+
+After completed work push your image and Repo
+```bash
+  docker-compose build
+```
+
+```bash
+git add .
+git commit -m "your message"
+git push origin branch_name
+```
+
+```bash
+docker push openmynetwork/wordpress-app:latest
+```
+
+After Changes Pull Image and Repo
+```bash
+git pull origin main
+docker pull openmynetwork/wordpress-app:latest
+docker-compose up -d
 ```
 
 Stop and Remove
