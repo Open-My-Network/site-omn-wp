@@ -16,7 +16,6 @@ wp-content/advanced-cache.php
 wp-content/wp-cache-config.php
 
 # Ignore wp-config.php if you don't want to track sensitive information
-wp-config.php
 nginx.conf
 
 # Ignore cache files
