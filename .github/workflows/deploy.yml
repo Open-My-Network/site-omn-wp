@@ -1,4 +1,4 @@
-name: Open My Network Site Deploys using CI/CD
+name: Open My Network CI/CD
 
 on:
   push:
