@@ -15,8 +15,8 @@ jobs:
 
       - name: Grant permissions for wp-content
         run: |
-          sudo chown -R ubuntu:ubuntu /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wp-content
-          sudo chmod -R 755 /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wp-content
+          sudo chown -R ubuntu:ubuntu /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wordpress/wp-content
+          sudo chmod -R 755 /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wordpress/wp-content
 
       - name: Log in to Docker Hub
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
@@ -28,7 +28,7 @@ jobs:
 
   deploy:
     runs-on: self-hosted
-    needs: build  # Ensure this job runs after the build job
+    needs: build # Ensure this job runs after the build job
 
     steps:
       - name: Checkout code
@@ -37,18 +37,11 @@ jobs:
       - name: List contents of wp-content before deletion
         run: |
           echo "Contents of wp-content before deletion:"
-          ls -la /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wp-content
+          ls -la /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wordpress/wp-content
 
       - name: Delete old content from wp-content
         run: |
-          sudo rm -rf /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wp-content/* || true
-
-      - name: Build and deploy Docker containers
-        run: |
-          set -e # Exit on error
-          cd ~/wp_omn_production/_work/site-omn-wp/site-omn-wp
-          docker-compose down
-          docker-compose up -d --build
+          sudo rm -rf /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wordpress/wp-content/* || true
 
       - name: Push Docker image to Docker Hub
         run: |
@@ -57,3 +50,10 @@ jobs:
       - name: Pull Docker image to server
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/wordpress-app:latest
+
+      - name: Build and deploy Docker containers
+        run: |
+          set -e # Exit on error
+          cd ~/wp_omn_production/_work/site-omn-wp/site-omn-wp
+          docker-compose down
+          docker-compose up -d --build
