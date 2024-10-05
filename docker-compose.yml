@@ -1,33 +1,16 @@
+version: '3.8'
+
 services:
   wordpress:
     image: wordpress:latest
-    container_name: omn_wordpress
     ports:
-      - "3000:80" 
-    volumes:
-      - ./wordpress:/var/www/html    # Mount local WordPress files
-      - ./wordpress/wp-content/themes:/var/www/html/wp-content/themes  # Mount local themes
-      - ./wordpress/wp-content/plugins:/var/www/html/wp-content/plugins  # Mount local plugins
+      - "8080:80"
     environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: omn_user
-      WORDPRESS_DB_PASSWORD: 2Lc5/aEa*X,2
-      WORDPRESS_DB_NAME: omn_production_db
-    depends_on:
-      - db
-    restart: always
-
-  db:
-    image: mysql:8.0
-    container_name: omn_db
-    environment:
-      MYSQL_DATABASE: omn_production_db
-      MYSQL_USER: omn_user
-      MYSQL_PASSWORD: 2Lc5/aEa*X,2
-      MYSQL_ROOT_PASSWORD: 2Lc5/aEa*X,2  
+      WORDPRESS_DB_HOST: openmynetworkrds.cb71kivuosfu.us-east-1.rds.amazonaws.com  # RDS endpoint
+      WORDPRESS_DB_USER: admin             # RDS username
+      WORDPRESS_DB_PASSWORD: mjeRyvpqewm     # RDS password
+      WORDPRESS_DB_NAME: omn_dev_database             # RDS database name
     volumes:
-      - db_data:/var/lib/mysql
-    restart: always
-
-volumes:
-  db_data:
+      - ./wp-content:/var/www/html/wp-content
+      - ./wp-content/plugins:/var/www/html/wp-content/plugins
+      - ./wp-content/themes:/var/www/html/wp-content/themes

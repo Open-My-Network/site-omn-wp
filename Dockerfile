@@ -1,8 +1,5 @@
-# Use the official WordPress image
 FROM wordpress:latest
 
-# Copy your WordPress files into the container
-COPY . /var/www/html
+COPY ./wp-content /var/www/html/wp-content
 
-# Expose ports
 EXPOSE 80
