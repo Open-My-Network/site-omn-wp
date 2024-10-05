@@ -7,14 +7,13 @@ on:
 
 jobs:
   build:
-    # Use the self-hosted runner
     runs-on: self-hosted
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Grant permission
+      - name: Grant permissions for wp-content
         run: |
           sudo chown -R ubuntu:ubuntu /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wp-content
           sudo chmod -R 755 /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wp-content
@@ -34,6 +33,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: List contents of wp-content before deletion
+        run: |
+          echo "Contents of wp-content before deletion:"
+          ls -la /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wp-content
+
+      - name: Delete old content from wp-content
+        run: |
+          sudo rm -rf /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wp-content/* || true
 
       - name: Build and deploy Docker containers
         run: |
