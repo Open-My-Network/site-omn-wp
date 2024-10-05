@@ -87,12 +87,25 @@ Here I am using ec2 instance to host my code. Launch a instance, you can choose 
 ```
 
 ```bash
-  docker info
+  sudo usermod -aG docker ubuntu
 ```
 
+Restart Github Action
 ```bash
-  sudo usermod -aG docker ubuntu
-  sudo usermod -aG docker "$USER"
+cd
+cd folder_name/
+sudo ./svc.sh stop
+sudo ./svc.sh start
+```
+
+Install Docker Compose
+```bash
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+
+Check permission for compose
+```bash
+sudo chmod +x /usr/local/bin/docker-compose
 ```
 
 ## Setup Nginx
