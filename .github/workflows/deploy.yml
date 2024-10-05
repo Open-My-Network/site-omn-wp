@@ -37,10 +37,10 @@ jobs:
           docker-compose down
           docker-compose up -d --build
 
-      - name: Pull Docker image to server
-        run: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/wordpress-app:latest
-
       - name: Push Docker image to Docker Hub
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/wordpress-app:latest
+
+      - name: Pull Docker image to server
+        run: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/wordpress-app:latest
