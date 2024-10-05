@@ -20,7 +20,7 @@ jobs:
       - name: Build Docker image
         run: |
           cd ~/wp_omn_production/_work/site-omn-wp/site-omn-wp
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/wordpress .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/wordpress-app .
 
   deploy:
     runs-on: self-hosted
@@ -39,8 +39,8 @@ jobs:
 
       - name: Pull Docker image to server
         run: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/wordpress:latest
+          docker pull ${{ secrets.DOCKER_USERNAME }}/wordpress-app:latest
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/wordpress:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/wordpress-app:latest
