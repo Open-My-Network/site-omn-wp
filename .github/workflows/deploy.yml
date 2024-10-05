@@ -38,9 +38,21 @@ jobs:
         run: |
           sudo chown -R ubuntu:ubuntu /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp
 
+      - name: Check if wp-content exists
+        run: |
+          if [ -d /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wordpress/wp-content ]; then
+            echo "Directory exists."
+          else
+            echo "Directory does not exist."
+            exit 1
+          fi
+
       - name: Delete old content from wp-content
         run: |
-          sudo rm -rf /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wordpress/wp-content/* || true
+          if ! sudo rm -rf /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wordpress/wp-content/*; then
+            echo "Failed to delete old content from wp-content"
+            exit 1
+          fi
 
       - name: Push Docker image to Docker Hub
         run: |
