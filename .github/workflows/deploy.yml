@@ -22,22 +22,25 @@ jobs:
           cd ~/wp_omn/_work/site-omn-wp/site-omn-wp
           docker build -t ${{ secrets.DOCKER_USERNAME }}/wordpress .
 
-      - name: Push Docker image to Docker Hub
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/wordpress:latest
-
   deploy:
     runs-on: self-hosted
     needs: build  # Ensure this job runs after the build job
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and deploy Docker containers
+        run: |
+          set -e # Exit on error
+          cd ~/wp_omn/_work/site-omn-wp/site-omn-wp
+          docker-compose down
+          docker-compose up -d --build
+
       - name: Pull Docker image to server
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/wordpress:latest
 
-      - name: Build and deploy Docker containers
+      - name: Push Docker image to Docker Hub
         run: |
-          set -e # exit on error
-          cd ~/wp_omn/_work/site-omn-wp/site-omn-wp
-          docker-compose down
-          docker-compose up -d --build
+          docker push ${{ secrets.DOCKER_USERNAME }}/wordpress:latest
