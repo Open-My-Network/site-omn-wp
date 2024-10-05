@@ -38,6 +38,10 @@ jobs:
         run: |
           sudo chown -R ubuntu:ubuntu /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp
 
+      - name: Delete old content from wp-content
+        run: |
+          sudo rm -rf /home/ubuntu/wp_omn_production/_work/site-omn-wp/site-omn-wp/wordpress/wp-content/* || true
+
       - name: Push Docker image to Docker Hub
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/wordpress-app:latest
