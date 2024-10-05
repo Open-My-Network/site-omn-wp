@@ -19,7 +19,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          cd ~/wp_omn/_work/site-omn-wp/site-omn-wp
+          cd ~/wp_omn_production/_work/site-omn-wp/site-omn-wp
           docker build -t ${{ secrets.DOCKER_USERNAME }}/wordpress .
 
   deploy:
@@ -33,7 +33,7 @@ jobs:
       - name: Build and deploy Docker containers
         run: |
           set -e # Exit on error
-          cd ~/wp_omn/_work/site-omn-wp/site-omn-wp
+          cd ~/wp_omn_production/_work/site-omn-wp/site-omn-wp
           docker-compose down
           docker-compose up -d --build
 
