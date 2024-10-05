@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   wordpress:
-    image: ${DOCKER_USERNAME}/wordpress-app:latest
+    image: openmynetwork/wordpress-app:latest
     ports:
       - "8080:80"
     environment:
