@@ -28,6 +28,9 @@ jobs:
 
       - name: Deploy
         run: |
+          touch .env
+          echo "${{ secrets.PROD_ENV }}" > .env
+
           docker pull ${{ secrets.DOCKER_USERNAME }}/wordpress:latest
           docker-compose down
           docker-compose up -d
