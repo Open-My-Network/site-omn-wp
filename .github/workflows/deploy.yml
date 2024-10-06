@@ -1,9 +1,9 @@
-name: Deploy CI/CD
+name: Deploy to ECR
 
 on:
   push:
     branches:
-      - main 
+      - main  # Trigger the workflow on a push to the main branch
 
 jobs:
   build:
@@ -18,6 +18,8 @@ jobs:
 
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
+        with:
+          region: ${{ secrets.AWS_REGION }}  # Use the region stored in secrets
 
       - name: Build Docker image
         run: docker build -t openmynetwork-wp:latest .
