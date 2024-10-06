@@ -1,5 +1,7 @@
 FROM wordpress:latest
 
+RUN apt-get update && apt-get install -y php8.0-fpm
+CMD ["php-fpm", "-F"]
 
 COPY ./wordpress/wp-content/themes /var/www/html/wp-content/themes
 COPY ./wordpress/wp-content/plugins /var/www/html/wp-content/plugins
