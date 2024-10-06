@@ -22,12 +22,12 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_HOST=db:3308
       - WORDPRESS_DB_USER=$MYSQL_USER
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=wordpress
     volumes:
-      - wordpress:/var/www/html
+      - ./wordpress:/var/www/html
     networks:
       - app-network
 
@@ -38,10 +38,10 @@ services:
     container_name: webserver
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "8081:80"
+      - "4431:443"
     volumes:
-      - wordpress:/var/www/html
+      - ./wordpress:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
     networks:
@@ -54,7 +54,7 @@ services:
     container_name: certbot
     volumes:
       - certbot-etc:/etc/letsencrypt
-      - wordpress:/var/www/html
+      - ./wordpress:/var/www/html
     command: certonly --webroot --webroot-path=/var/www/html --email openmynetwork.leep@gmail.com --agree-tos --no-eff-email --force-renewal -d openmynetwork.com -d www.openmynetwork.com
 
 volumes:
