@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: ${CONTAINER_NAME}-nginx
+    image: nginx:1.27.2-alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8888:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d:rw
+      - wordpress:/var/www/html
+    networks:
+      - internal
+
+  phpmyadmin:
+    container_name: ${CONTAINER_NAME}-phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    env_file: .env
+    environment:
+      PMA_HOST: ${RDS_HOST}
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+    ports:
+      - "1111:80"
+    networks:
+      - internal
+
+  wordpress:
+    depends_on:
+      - phpmyadmin
+    container_name: ${CONTAINER_NAME}-wordpress
+    image: wordpress:6.5.2-fpm-alpine
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      WORDPRESS_DB_HOST: ${RDS_HOST}
+      WORDPRESS_DB_NAME: ${DATABASE_NAME}
+      WORDPRESS_DB_USER: ${DATABASE_USER}
+      WORDPRESS_DB_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+    volumes:
+      - wordpress:/var/www/html
+      - ./wp-content/themes:/var/www/html/wp-content/themes 
+      - ./wp-content/plugins:/var/www/html/wp-content/plugins
+    networks:
+      - internal
+
+volumes:
+  wordpress:
+
+networks:
+  internal:
+    driver: bridge
