@@ -23,6 +23,7 @@ services:
       PMA_HOST: ${RDS_HOST}
       PMA_PORT: 3306
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+
     ports:
       - "1111:80"
     networks:
@@ -36,6 +37,10 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
+      # WORDPRESS_DB_HOST: localhost:3306
+      # WORDPRESS_DB_NAME: omn_test_db
+      # WORDPRESS_DB_USER: root
+      # WORDPRESS_DB_PASSWORD: ""
       WORDPRESS_DB_HOST: ${RDS_HOST}
       WORDPRESS_DB_NAME: ${DATABASE_NAME}
       WORDPRESS_DB_USER: ${DATABASE_USER}
@@ -44,6 +49,7 @@ services:
       - wordpress:/var/www/html
       - ./wp-content/themes:/var/www/html/wp-content/themes 
       - ./wp-content/plugins:/var/www/html/wp-content/plugins
+      - ./wp-config.php:/var/www/html/wp-config.php 
     networks:
       - internal
 
