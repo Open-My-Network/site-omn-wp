@@ -6,8 +6,10 @@ WORKDIR /var/www/html
 
 # Copy the entire wp-content directory (including themes, plugins, uploads, etc.)
 COPY ./wp-content /var/www/html/wp-content
+COPY ./wp-config.php /var/www/html/wp-config.php
 
 # Set proper permissions for WordPress
+RUN chmod 644 /var/www/html/wp-config.php
 RUN chown -R www-data:www-data /var/www/html/wp-content
 
 # Expose port 80 for HTTP traffic
