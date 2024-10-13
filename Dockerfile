@@ -1,19 +1,18 @@
 # Use the official WordPress image as a base
-FROM wordpress:6.5.2-fpm-alpine
+FROM wordpress:6.5.2
 
 # Set the working directory to the root of the WordPress installation
 WORKDIR /var/www/html
 
-# Copy the entire wp-content directory (including themes, plugins, uploads, etc.)
-COPY ./wp-content /var/www/html/wp-content
-COPY ./wp-config.php /var/www/html/wp-config.php
+# Copy only the wp-content directory to avoid overwriting core WordPress files
+COPY ./wordpress/wp-content /var/www/html/wp-content/
 
-# Set proper permissions for WordPress
-RUN chmod 644 /var/www/html/wp-config.php
-RUN chown -R www-data:www-data /var/www/html/wp-content
+# Set proper permissions for WordPress files
+RUN if [ -f /var/www/html/wp-config.php ]; then chmod 644 /var/www/html/wp-config.php; fi && \
+    chown -R www-data:www-data /var/www/html && \
+    find /var/www/html/ -type d -exec chmod 755 {} \; && \
+    find /var/www/html/ -type f -exec chmod 644 {} \;
 
-# Expose port 80 for HTTP traffic
-EXPOSE 80
 
-# Start the PHP-FPM process
-CMD ["php-fpm"]
+# Expose ports 80 for HTTP and 443 for HTTPS
+EXPOSE 80 443
