@@ -3,7 +3,7 @@ services:
     container_name: openmynetwork--deve
     image: wordpress:latest
     ports:
-      - "8888:80"
+      - "9999:80"
     env_file:
       - .env
     environment:
