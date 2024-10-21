@@ -1,36 +1,72 @@
-## Local Env
 
-Create .env
+# Open My Network (LEEP)
 
+- [Wordpress](https://wordpress.com/)
+- [AWS](https://aws.amazon.com/)
+    - EC2
+    - RDS
+- [Docker](https://docker.com/)
+
+## Acknowledgements
+
+ - [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
+ - [Awesome README](https://github.com/matiassingers/awesome-readme)
+ - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
+
+
+## Teams
+
+- [Abishek Khanal](https://www.github.com/abishek12)
+
+
+## Features
+
+- Light/dark mode toggle
+- Live previews
+- Fullscreen mode
+- Cross platform
+
+## Color Reference
+
+| Color             | Hex                                                                |
+| ----------------- | ------------------------------------------------------------------ |
+| Example Color | #0a192f |
+| Example Color | #f8f8f8 |
+| Example Color | #00b48a |
+| Example Color | #00d1a0 |
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`MYSQL_ROOT_PASSWORD`=""
+
+`MYSQL_DATABASE`="database_name"
+
+`MYSQL_USER`="username"
+
+`MYSQL_PASSWORD`="password"
+
+
+## Build and Push Manually
+
+Build the project
 ```bash
-CONTAINER_NAME=omnapp
-
-RDS_HOST=your_host
-DATABASE_NAME=your_database_name
-DATABASE_USER=your_user
-DATABASE_ROOT_PASSWORD=your_passwor
+  docker build -t openmynetwork/wordpress-app .
 ```
 
-Build the Docker Image
+Tag the Image for Docker Hub
 ```bash
-docker build -t openmynetwork-wp:latest .
+  docker tag openmynetwork/wordpress-app openmynetwork/wordpress-app:latest
 ```
 
-Login to ECR from the CLI
+Finally, push the image to Docker Hub:
 ```bash
-aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com 
-```
-Example
-```bash
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 22*****.dkr.ecr.us-east-1.amazonaws.com
+  docker push openmynetwork/wordpress-app:latest
 ```
 
-Tag your Docker image for ECR
+To Sync Project with Server
 ```bash
-docker tag openmynetwork-wp:latest <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com/openmynetwork-ecr:latest
-```
-
-Push the Docker image to ECR
-```bash
-docker push <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com/openmynetwork-ecr:latest
+rsync -avz -e "ssh -i ~/Downloads/openmynetwork.pem" <username>:<server_path> <destination_path>
 ```
